@@ -1,0 +1,257 @@
+<!-- Problem Statement:
+Develop a structured discussion platform where students and faculty ask academic questions and share solutions. 
+Posts should be categorized by subject and course. Users should vote for useful answers and build reputation scores.
+The system should highlight trending academic discussions. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📚 EduSphere</title>
+  <link rel="stylesheet" href="index.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header id="main-header">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-icon">📚</span>
+        <span class="brand-name">EduSphere</span>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#" class="nav-link active" data-view="feed">Feed</a></li>
+        <li><a href="#" class="nav-link" data-view="trending">Trending</a></li>
+        <li><a href="#" class="nav-link" data-view="ask">Ask Question</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth">
+        <button class="btn btn-ghost" id="btn-login-nav">Login</button>
+        <button class="btn btn-primary" id="btn-register-nav">Register</button>
+      </div>
+      <div class="nav-user hidden" id="nav-user">
+        <div class="user-rep" id="user-rep-badge">⭐ 0</div>
+        <span class="user-greeting" id="user-greeting">Hi, User</span>
+        <button class="btn btn-ghost btn-sm" id="btn-logout">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="app-main">
+
+    <section id="view-hero" class="hero-section">
+      <img src="/edusphere-hero (1).svg" class="hero-bg-img" alt="EduSphere illustration" />
+      <div class="hero-content">
+        <p class="hero-eyebrow">Where Learning Meets Collaboration</p>
+        <h1 class="hero-title">Where Curiosity<br/><em>Meets Expertise</em></h1>
+        <p class="hero-sub">Ask questions. Share knowledge. Build your academic.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" id="hero-explore">Explore Discussions</button>
+          <button class="btn btn-outline btn-lg" id="hero-ask">Ask a Question</button>
+        </div>
+        <div class="hero-stats" id="hero-stats">
+          <div class="stat"><span class="stat-num" id="stat-q">0</span><span class="stat-label">Questions</span></div>
+          <div class="stat"><span class="stat-num" id="stat-a">0</span><span class="stat-label">Answers</span></div>
+          <div class="stat"><span class="stat-num" id="stat-u">0</span><span class="stat-label">Members</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-feed" class="view hidden">
+      <div class="view-container">
+        <div class="feed-header">
+          <h2 class="view-title">Discussion Feed</h2>
+          <div class="feed-filters">
+            <select id="filter-subject" class="filter-select">
+              <option value="">All Subjects</option>
+              <option>Computer Organization and Design</option>
+              <option>Programming in JAVA</option>
+              <option>Operating System</option>
+              <option>Operating System Lab</option>
+              <option>Front End Web Developer</option>
+              <option>Advanced Wev Development</option>
+              <option>Artificial Intelligence</option>
+              <option>Analytical Skills</option>
+            </select>
+            <select id="filter-course" class="filter-select">
+              <option value="">All Courses</option>
+              <option>CSE211</option>
+              <option>CSE310</option>
+              <option>CSE316</option>
+              <option>CSE325</option>
+              <option>INT219</option>
+              <option>INT222</option>
+              <option>INT428</option>
+              <option>PEA307</option>
+            </select>
+            <button class="btn btn-sm btn-outline" id="btn-apply-filter">Filter</button>
+          </div>
+        </div>
+        <div class="questions-list" id="questions-list">
+          <div class="loading-state">Loading discussions…</div>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </section>
+
+    <section id="view-trending" class="view hidden">
+      <div class="view-container">
+        <h2 class="view-title">🔥 Trending Discussions</h2>
+        <p class="view-sub">Ranked by votes, answers, and recent activity</p>
+        <div class="questions-list" id="trending-list">
+          <div class="loading-state">Calculating trends…</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-ask" class="view hidden">
+      <div class="view-container narrow">
+        <h2 class="view-title">Ask a Question</h2>
+        <p class="view-sub">Be clear. Add context. Get better answers.</p>
+        <form id="question-form" class="card-form" novalidate>
+          <div class="form-group">
+            <label for="q-title">Question Title *</label>
+            <input type="text" id="q-title" placeholder="Type our Question Here" required />
+            <span class="field-hint">Write a short, clear title (10–150 characters)</span>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="q-subject">Subject *</label>
+              <select id="q-subject" required>
+              <option value="">Select subject…</option>
+              <option>Computer Organization and Design</option>
+              <option>Programming in JAVA</option>
+              <option>Operating System</option>
+              <option>Operating System Lab</option>
+              <option>Front End Web Developer</option>
+              <option>Advanced Wev Development</option>
+              <option>Artificial Intelligence</option>
+              <option>Analytical Skills</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="q-course">Course Code *</label>
+              <select id="q-course" required>
+              <option value="">Select Code</option>
+              <option>CSE211</option>
+              <option>CSE310</option>
+              <option>CSE316</option>
+              <option>CSE325</option>
+              <option>INT219</option>
+              <option>INT222</option>
+              <option>INT428</option>
+              <option>PEA307</option>
+              </select>     
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="q-desc">Description *</label>
+            <textarea id="q-desc" rows="5" placeholder="Explain your problem properly so others can understand and help you" required></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg">Post Question</button>
+          </div>
+          <div id="ask-msg" class="form-msg hidden"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="view-detail" class="view hidden">
+      <div class="view-container">
+        <button class="btn btn-ghost btn-sm back-btn" id="btn-back">← Back</button>
+        <article id="question-detail-card" class="question-detail"></article>
+        <section class="answers-section">
+          <h3 class="section-heading" id="answers-heading">Answers</h3>
+          <div id="answers-list"></div>
+          <div class="answer-form-wrap" id="answer-form-wrap">
+            <h4>Write an Answer</h4>
+            <form id="answer-form" novalidate>
+              <div class="form-group">
+                <textarea id="ans-text" rows="4" placeholder="Share your knowledge and Answer the question..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit Answer</button>
+              <div id="ans-msg" class="form-msg hidden"></div>
+            </form>
+          </div>
+          <div id="login-prompt-answer" class="login-prompt hidden">
+            <p>You must be logged in to answer. <button class="btn btn-ghost btn-sm" id="prompt-login-btn">Login now</button></p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="auth-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+
+      <div id="tab-login" class="auth-tab">
+        <h2 class="modal-title">Welcome Back</h2>
+        <p class="modal-sub">Login to continue your academic journey</p>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="you@gmail.com" required />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Login</button>
+          <div id="login-msg" class="form-msg hidden"></div>
+        </form>
+        <p class="auth-switch">No account? <button class="link-btn" id="go-register">Register here</button></p>
+      </div>
+
+      <div id="tab-register" class="auth-tab hidden">
+        <h2 class="modal-title">Join EduSphere📚</h2>
+        <p class="modal-sub">Create your academic profile</p>
+        <form id="register-form" novalidate>
+          <div class="form-group">
+            <label for="reg-name">Full Name *</label>
+            <input type="text" id="reg-name" placeholder="Nishant Mangal" required />
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Email *</label>
+            <input type="email" id="reg-email" placeholder="you@gmail.com" required />
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Password *</label>
+            <input type="password" id="reg-password" placeholder="Min 6 characters" required />
+          </div>
+          <div class="form-group">
+            <label for="reg-role">Role</label>
+            <select id="reg-role" required>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+          <div id="reg-msg" class="form-msg hidden"></div>
+        </form>
+        <p class="auth-switch">Already registered? <button class="link-btn" id="go-login">Login here</button></p>
+      </div>
+
+    </div>
+  </div>
+  <div id="toast" class="toast hidden" role="alert" aria-live="polite"></div>
+
+  <footer id="main-footer">
+  <div class="footer-inner">
+    <span class="brand-name">📚 EduSphere</span>
+    
+    <span class="footer-copy">
+      © 2026 Nishant Mangal. All rights reserved.
+    </span>
+    
+    <span class="footer-contact">
+      Contact: <a href="mailto:your@email.com">mangalnishant1206@gmail.com</a>
+    </span>
+  </div>
+</footer>
+
+  <script src="index.js"></script>
+
+</body>
+</html>
