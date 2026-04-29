@@ -14,6 +14,7 @@ const UI = {
       navUser.classList.add('hidden');
     }
   },
+  
 
   showMsg(id, msg, type = 'error') {
     const el = document.getElementById(id);
