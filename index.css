@@ -17,6 +17,7 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 
+
 #main-header {
   position: sticky; top: 0; z-index: 100;
   background: rgba(14,15,19,0.92);
@@ -517,6 +518,92 @@ body {
   .card-form, .question-detail { padding: 20px; }
   .modal-box { margin: 16px; padding: 24px; }
   .footer-inner { flex-direction: column; text-align: center; }
+}
+/* ── Screen Loading / Splash ── */
+@keyframes splashFadeIn {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+@keyframes splashFadeOut {
+  0%   { opacity: 1; transform: scale(1);    }
+  100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
+}
+@keyframes splashBarFill {
+  0%   { width: 0%; }
+  100% { width: 100%; }
+}
+@keyframes splashIconBounce {
+  0%, 100% { transform: translateY(0);     }
+  40%       { transform: translateY(-18px); }
+  60%       { transform: translateY(-8px);  }
+}
+@keyframes splashTextSlide {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #0e0c1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: splashFadeIn 0.6s ease forwards;
+}
+.splash-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.splash-icon {
+  font-size: 3.8rem;
+  /* animation: splashIconBounce 1.2s ease 0.3s infinite; */
+  display: inline-block;
+  filter: drop-shadow(0 0 24px rgba(212,168,67,0.6));
+}
+.splash-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: #d4a843;
+  letter-spacing: 3px;
+  text-shadow: 0 0 40px rgba(212,168,67,0.4);
+  animation: splashTextSlide 0.6s ease 0.2s both;
+}
+.splash-tagline {
+  font-size: 0.95rem;
+  color: rgba(196,181,253,0.75);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  animation: splashTextSlide 0.6s ease 0.4s both;
+  opacity: 0;
+}
+.splash-loader {
+  width: 200px;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 12px;
+  animation: splashTextSlide 0.6s ease 0.5s both;
+  opacity: 0;
+}
+.splash-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #d4a843, #f59e0b, #c4b5fd);
+  animation: splashBarFill 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
 }
 
 *, *::before, *::after { 

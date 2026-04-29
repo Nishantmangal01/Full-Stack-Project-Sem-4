@@ -37,6 +37,7 @@ const Auth = {
     State.clearSession();
     UI.updateNavAuth();
     Router.show('feed');
+    Questions.loadFeed();
     Toast.show('Logged out successfully.', 'info');
   },
 };
