@@ -14,18 +14,18 @@ The system should highlight trending academic discussions. -->
 </head>
 <body>
 
-<div id="splash-screen">
-  <div class="splash-content">
-    <div class="splash-logo-wrap">
-      <span class="splash-icon">📚</span>
-      <span class="splash-name">EduSphere</span>
-    </div>
-    <p class="splash-tagline">Where Curiosity Meets Expertise</p>
-    <div class="splash-loader">
-      <div class="splash-bar"></div>
+  <div id="splash-screen">
+    <div class="splash-content">
+      <div class="splash-logo-wrap">
+        <span class="splash-icon">📚</span>
+        <span class="splash-name">EduSphere</span>
+      </div>
+      <p class="splash-tagline">Where Curiosity Meets Expertise</p>
+      <div class="splash-loader">
+        <div class="splash-bar"></div>
+      </div>
     </div>
   </div>
-</div>
 
   <header id="main-header">
     <nav class="navbar">
@@ -38,6 +38,7 @@ The system should highlight trending academic discussions. -->
         <li><a href="#" class="nav-link" data-view="trending">Trending</a></li>
         <li><a href="#" class="nav-link" data-view="ask">Ask Question</a></li>
       </ul>
+     <button class="theme-btn" id="theme-toggle">Dark</button>
       <div class="nav-auth" id="nav-auth">
         <button class="btn btn-ghost" id="btn-login-nav">Login</button>
         <button class="btn btn-primary" id="btn-register-nav">Register</button>
@@ -262,6 +263,30 @@ The system should highlight trending academic discussions. -->
     </span>
   </div>
 </footer>
+
+    <script>
+    (function() {
+      const saved = localStorage.getItem('edusphere_theme') || 'dark';
+      if (saved === 'light') document.body.classList.add('light');
+
+      function updateBtn() {
+        const isLight = document.body.classList.contains('light');
+        const btn = document.getElementById('theme-toggle');
+        if (btn) btn.textContent = isLight ? 'Light' : 'Dark';
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        updateBtn();
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+          document.body.classList.toggle('light');
+          const isLight = document.body.classList.contains('light');
+          localStorage.setItem('edusphere_theme', isLight ? 'light' : 'dark');
+          updateBtn();
+        });
+      });
+    })();
+
+  </script>
 
 <script src="/Java Script/API.js"></script>
 <script src="/Java Script/CurrentState.js"></script>
