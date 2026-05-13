@@ -93,7 +93,14 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());                  
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.msi')) {
+      res.setHeader('Content-Type', 'application/octet-stream');
+      res.setHeader('Content-Disposition', 'attachment; filename="tightvnc-2.8.87-gpl-setup-64bit.msi"');
+    }
+  }
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();
